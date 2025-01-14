@@ -14,13 +14,15 @@ async function bootstrap() {
       },
     },
   );
-  await app.listen();
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
     }),
   );
+  await app.listen();
+
   console.log(`Products microservice running on port ${envs.port}`);
 }
 bootstrap();
