@@ -4,6 +4,9 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PaginationDto } from 'src/common';
+import { Product } from '@prisma/client';
+import { GetPaginatedProduct } from './dto/get-paginated-product.dt';
+import { ResponseMessage } from 'src/common/interface/response-message.interface';
 
 @Controller('products')
 export class ProductsController {
@@ -11,7 +14,7 @@ export class ProductsController {
 
   // @Post()// Thi is only Rest
   @MessagePattern({ cmd: 'create_product' }) // This is Microservice message pattern
-  create(@Payload() createProductDto: CreateProductDto) {
+  create(@Payload() createProductDto: CreateProductDto): Promise<Product> {
     try {
       return this.productsService.create(createProductDto);
     } catch (error) {
@@ -25,7 +28,9 @@ export class ProductsController {
 
   //@Get()
   @MessagePattern({ cmd: 'find_all_products' })
-  findAll(@Payload() paginationDto: PaginationDto) {
+  findAll(
+    @Payload() paginationDto: PaginationDto,
+  ): Promise<GetPaginatedProduct> {
     try {
       return this.productsService.findAll(paginationDto);
     } catch (error) {
@@ -39,7 +44,7 @@ export class ProductsController {
 
   //@Get(':id')
   @MessagePattern({ cmd: 'find_one_product' })
-  findOne(@Payload('id') id: string) {
+  findOne(@Payload('id') id: string): Promise<Product> {
     console.info(id);
     try {
       return this.productsService.findOne(id);
@@ -69,7 +74,7 @@ export class ProductsController {
 
   //@Delete(':id')
   @MessagePattern({ cmd: 'delete_product' })
-  remove(@Payload('id') id: string) {
+  remove(@Payload('id') id: string): Promise<ResponseMessage> {
     try {
       return this.productsService.remove(id);
     } catch (error) {
@@ -79,5 +84,10 @@ export class ProductsController {
         message: 'Internal Server Error',
       });
     }
+  }
+
+  @MessagePattern({ cmd: 'validate_products' })
+  validateProducts(@Payload() ids: string[]): Promise<Product[]> {
+    return this.productsService.validateProducts(ids);
   }
 }

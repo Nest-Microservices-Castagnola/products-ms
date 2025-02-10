@@ -85,4 +85,26 @@ export class ProductsService extends PrismaClient implements OnModuleInit {
       message: 'Resource deleted',
     };
   }
+
+  async validateProducts(ids: string[]): Promise<Product[]> {
+    this.logger.log(ids);
+    ids = Array.from(new Set(ids));
+
+    const products: Product[] = await this.product.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+    this.logger.log(ids.length, products.length);
+    if (ids.length !== products.length) {
+      throw new RpcException({
+        message: 'Some producs were not found',
+        status: HttpStatus.BAD_REQUEST,
+      });
+    }
+
+    return products;
+  }
 }
