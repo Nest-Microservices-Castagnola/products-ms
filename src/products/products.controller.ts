@@ -1,9 +1,9 @@
 import { Controller, HttpException, HttpStatus } from '@nestjs/common';
 import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
+import { Product } from '@prisma/client';
 import { ProductsService } from './products.service';
 import { PaginationDto } from 'src/common';
 import { ResponseMessage } from 'src/common/interface/response-message.interface';
-import { Product } from './entities';
 import { CreateProductDto, GetPaginatedProduct, UpdateProductDto } from './dto';
 
 @Controller('products')

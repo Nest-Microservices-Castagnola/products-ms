@@ -1,9 +1,8 @@
 import { HttpStatus, Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Product } from '@prisma/client';
 import { PaginationDto } from 'src/common';
 import { ResponseMessage } from 'src/common/interface/response-message.interface';
 import { RpcException } from '@nestjs/microservices';
-import { Product } from './entities/product.entity';
 import { CreateProductDto, GetPaginatedProduct, UpdateProductDto } from './dto';
 
 @Injectable()
