@@ -32,6 +32,7 @@ COPY --from=build /usr/src/app/node_modules ./node_modules
 
 COPY --from=build /usr/src/app/dist ./dist
 COPY --from=build /usr/src/app/prisma ./prisma
+RUN chmod -R 777 /usr/src/app/prisma
 
 ENV NODE_ENV=production
 
