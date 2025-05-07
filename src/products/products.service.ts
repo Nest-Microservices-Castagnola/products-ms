@@ -13,9 +13,17 @@ export class ProductsService extends PrismaClient implements OnModuleInit {
     this.logger.log('Database connected');
   }
   create(createProductDto: CreateProductDto): Promise<Product> {
-    return this.product.create({
-      data: createProductDto,
-    });
+    try {
+      return this.product.create({
+        data: createProductDto,
+      });
+    } catch (error) {
+      console.error('🚀 ~ ProductsController ~ create ~ error:', error);
+      throw new RpcException({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Internal Server Error',
+      });
+    }
   }
 
   async findAll(paginationDto: PaginationDto): Promise<GetPaginatedProduct> {

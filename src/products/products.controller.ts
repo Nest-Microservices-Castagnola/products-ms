@@ -13,15 +13,8 @@ export class ProductsController {
   // @Post()// Thi is only Rest
   @MessagePattern({ cmd: 'create_product' }) // This is Microservice message pattern
   create(@Payload() createProductDto: CreateProductDto): Promise<Product> {
-    try {
-      return this.productsService.create(createProductDto);
-    } catch (error) {
-      console.error('🚀 ~ ProductsController ~ create ~ error:', error);
-      throw new RpcException({
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: 'Internal Server Error',
-      });
-    }
+    console.log(`Entra al controller`);
+    return this.productsService.create(createProductDto);
   }
 
   //@Get()

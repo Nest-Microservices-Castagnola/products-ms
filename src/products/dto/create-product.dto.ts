@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsPositive,
   IsString,
+  Min,
 } from 'class-validator';
 
 export class CreateProductDto {
@@ -20,6 +21,7 @@ export class CreateProductDto {
   })
   @IsNotEmpty()
   @IsPositive()
+  @Min(0)
   @Type(() => Number)
   public price: number;
 }
